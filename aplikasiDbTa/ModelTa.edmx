@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DbTaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_dosen">
+          <Key>
+            <PropertyRef Name="nip" />
+          </Key>
+          <Property Name="nip" Type="nchar" MaxLength="18" Nullable="false" />
+          <Property Name="nama" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_jadwal">
+          <Key>
+            <PropertyRef Name="id_ta" />
+            <PropertyRef Name="hari" />
+            <PropertyRef Name="waktu" />
+          </Key>
+          <Property Name="id_ta" Type="int" Nullable="false" />
+          <Property Name="hari" Type="date" Nullable="false" />
+          <Property Name="waktu" Type="time" Precision="7" Nullable="false" />
+          <Property Name="sidang" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ruangan" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_mhs">
+          <Key>
+            <PropertyRef Name="NPM" />
+          </Key>
+          <Property Name="NPM" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nama" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prodi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_ta">
+          <Key>
+            <PropertyRef Name="id_ta" />
+          </Key>
+          <Property Name="id_ta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="judul_ta" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="pembimbing" Type="nchar" MaxLength="18" Nullable="false" />
+          <Property Name="penguji1" Type="nchar" MaxLength="18" Nullable="false" />
+          <Property Name="penguji2" Type="nchar" MaxLength="18" Nullable="false" />
+          <Property Name="npm" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_jadwal_tbl_ta">
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="1" />
+          <End Role="tbl_jadwal" Type="Self.tbl_jadwal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ta">
+              <PropertyRef Name="id_ta" />
+            </Principal>
+            <Dependent Role="tbl_jadwal">
+              <PropertyRef Name="id_ta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ta_tbl_dosen">
+          <End Role="tbl_dosen" Type="Self.tbl_dosen" Multiplicity="1" />
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_dosen">
+              <PropertyRef Name="nip" />
+            </Principal>
+            <Dependent Role="tbl_ta">
+              <PropertyRef Name="pembimbing" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ta_tbl_dosen1">
+          <End Role="tbl_dosen" Type="Self.tbl_dosen" Multiplicity="1" />
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_dosen">
+              <PropertyRef Name="nip" />
+            </Principal>
+            <Dependent Role="tbl_ta">
+              <PropertyRef Name="penguji1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ta_tbl_dosen2">
+          <End Role="tbl_dosen" Type="Self.tbl_dosen" Multiplicity="1" />
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_dosen">
+              <PropertyRef Name="nip" />
+            </Principal>
+            <Dependent Role="tbl_ta">
+              <PropertyRef Name="penguji2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ta_tbl_mhs">
+          <End Role="tbl_mhs" Type="Self.tbl_mhs" Multiplicity="1" />
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_mhs">
+              <PropertyRef Name="NPM" />
+            </Principal>
+            <Dependent Role="tbl_ta">
+              <PropertyRef Name="npm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbTaModelStoreContainer">
+          <EntitySet Name="tbl_dosen" EntityType="Self.tbl_dosen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_jadwal" EntityType="Self.tbl_jadwal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_mhs" EntityType="Self.tbl_mhs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ta" EntityType="Self.tbl_ta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_jadwal_tbl_ta" Association="Self.FK_tbl_jadwal_tbl_ta">
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+            <End Role="tbl_jadwal" EntitySet="tbl_jadwal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ta_tbl_dosen" Association="Self.FK_tbl_ta_tbl_dosen">
+            <End Role="tbl_dosen" EntitySet="tbl_dosen" />
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ta_tbl_dosen1" Association="Self.FK_tbl_ta_tbl_dosen1">
+            <End Role="tbl_dosen" EntitySet="tbl_dosen" />
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ta_tbl_dosen2" Association="Self.FK_tbl_ta_tbl_dosen2">
+            <End Role="tbl_dosen" EntitySet="tbl_dosen" />
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ta_tbl_mhs" Association="Self.FK_tbl_ta_tbl_mhs">
+            <End Role="tbl_mhs" EntitySet="tbl_mhs" />
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbTaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_dosen">
+          <Key>
+            <PropertyRef Name="nip" />
+          </Key>
+          <Property Name="nip" Type="String" MaxLength="18" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="nama" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tbl_ta" Relationship="Self.FK_tbl_ta_tbl_dosen" FromRole="tbl_dosen" ToRole="tbl_ta" />
+          <NavigationProperty Name="tbl_ta1" Relationship="Self.FK_tbl_ta_tbl_dosen1" FromRole="tbl_dosen" ToRole="tbl_ta" />
+          <NavigationProperty Name="tbl_ta2" Relationship="Self.FK_tbl_ta_tbl_dosen2" FromRole="tbl_dosen" ToRole="tbl_ta" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_jadwal">
+          <Key>
+            <PropertyRef Name="id_ta" />
+            <PropertyRef Name="hari" />
+            <PropertyRef Name="waktu" />
+          </Key>
+          <Property Name="id_ta" Type="Int32" Nullable="false" />
+          <Property Name="hari" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="waktu" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="sidang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ruangan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tbl_ta" Relationship="Self.FK_tbl_jadwal_tbl_ta" FromRole="tbl_jadwal" ToRole="tbl_ta" />
+        </EntityType>
+        <EntityType Name="tbl_mhs">
+          <Key>
+            <PropertyRef Name="NPM" />
+          </Key>
+          <Property Name="NPM" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Nama" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prodi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tbl_ta" Relationship="Self.FK_tbl_ta_tbl_mhs" FromRole="tbl_mhs" ToRole="tbl_ta" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_ta">
+          <Key>
+            <PropertyRef Name="id_ta" />
+          </Key>
+          <Property Name="id_ta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="judul_ta" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pembimbing" Type="String" MaxLength="18" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="penguji1" Type="String" MaxLength="18" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="penguji2" Type="String" MaxLength="18" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="npm" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tbl_dosen" Relationship="Self.FK_tbl_ta_tbl_dosen" FromRole="tbl_ta" ToRole="tbl_dosen" />
+          <NavigationProperty Name="tbl_dosen1" Relationship="Self.FK_tbl_ta_tbl_dosen1" FromRole="tbl_ta" ToRole="tbl_dosen" />
+          <NavigationProperty Name="tbl_dosen2" Relationship="Self.FK_tbl_ta_tbl_dosen2" FromRole="tbl_ta" ToRole="tbl_dosen" />
+          <NavigationProperty Name="tbl_jadwal" Relationship="Self.FK_tbl_jadwal_tbl_ta" FromRole="tbl_ta" ToRole="tbl_jadwal" />
+          <NavigationProperty Name="tbl_mhs" Relationship="Self.FK_tbl_ta_tbl_mhs" FromRole="tbl_ta" ToRole="tbl_mhs" />
+        </EntityType>
+        <Association Name="FK_tbl_ta_tbl_dosen">
+          <End Role="tbl_dosen" Type="Self.tbl_dosen" Multiplicity="1" />
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_dosen">
+              <PropertyRef Name="nip" />
+            </Principal>
+            <Dependent Role="tbl_ta">
+              <PropertyRef Name="pembimbing" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ta_tbl_dosen1">
+          <End Role="tbl_dosen" Type="Self.tbl_dosen" Multiplicity="1" />
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_dosen">
+              <PropertyRef Name="nip" />
+            </Principal>
+            <Dependent Role="tbl_ta">
+              <PropertyRef Name="penguji1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ta_tbl_dosen2">
+          <End Role="tbl_dosen" Type="Self.tbl_dosen" Multiplicity="1" />
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_dosen">
+              <PropertyRef Name="nip" />
+            </Principal>
+            <Dependent Role="tbl_ta">
+              <PropertyRef Name="penguji2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_jadwal_tbl_ta">
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="1" />
+          <End Role="tbl_jadwal" Type="Self.tbl_jadwal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ta">
+              <PropertyRef Name="id_ta" />
+            </Principal>
+            <Dependent Role="tbl_jadwal">
+              <PropertyRef Name="id_ta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ta_tbl_mhs">
+          <End Role="tbl_mhs" Type="Self.tbl_mhs" Multiplicity="1" />
+          <End Role="tbl_ta" Type="Self.tbl_ta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_mhs">
+              <PropertyRef Name="NPM" />
+            </Principal>
+            <Dependent Role="tbl_ta">
+              <PropertyRef Name="npm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbTaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_dosen" EntityType="Self.tbl_dosen" />
+          <EntitySet Name="tbl_jadwal" EntityType="Self.tbl_jadwal" />
+          <EntitySet Name="tbl_mhs" EntityType="Self.tbl_mhs" />
+          <EntitySet Name="tbl_ta" EntityType="Self.tbl_ta" />
+          <AssociationSet Name="FK_tbl_ta_tbl_dosen" Association="Self.FK_tbl_ta_tbl_dosen">
+            <End Role="tbl_dosen" EntitySet="tbl_dosen" />
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ta_tbl_dosen1" Association="Self.FK_tbl_ta_tbl_dosen1">
+            <End Role="tbl_dosen" EntitySet="tbl_dosen" />
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ta_tbl_dosen2" Association="Self.FK_tbl_ta_tbl_dosen2">
+            <End Role="tbl_dosen" EntitySet="tbl_dosen" />
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_jadwal_tbl_ta" Association="Self.FK_tbl_jadwal_tbl_ta">
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+            <End Role="tbl_jadwal" EntitySet="tbl_jadwal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ta_tbl_mhs" Association="Self.FK_tbl_ta_tbl_mhs">
+            <End Role="tbl_mhs" EntitySet="tbl_mhs" />
+            <End Role="tbl_ta" EntitySet="tbl_ta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbTaModelStoreContainer" CdmEntityContainer="DbTaEntities">
+          <EntitySetMapping Name="tbl_dosen">
+            <EntityTypeMapping TypeName="DbTaModel.tbl_dosen">
+              <MappingFragment StoreEntitySet="tbl_dosen">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nip" ColumnName="nip" />
+                <ScalarProperty Name="nama" ColumnName="nama" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_jadwal">
+            <EntityTypeMapping TypeName="DbTaModel.tbl_jadwal">
+              <MappingFragment StoreEntitySet="tbl_jadwal">
+                <ScalarProperty Name="id_ta" ColumnName="id_ta" />
+                <ScalarProperty Name="hari" ColumnName="hari" />
+                <ScalarProperty Name="waktu" ColumnName="waktu" />
+                <ScalarProperty Name="sidang" ColumnName="sidang" />
+                <ScalarProperty Name="ruangan" ColumnName="ruangan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_mhs">
+            <EntityTypeMapping TypeName="DbTaModel.tbl_mhs">
+              <MappingFragment StoreEntitySet="tbl_mhs">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="NPM" ColumnName="NPM" />
+                <ScalarProperty Name="Nama" ColumnName="Nama" />
+                <ScalarProperty Name="Prodi" ColumnName="Prodi" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ta">
+            <EntityTypeMapping TypeName="DbTaModel.tbl_ta">
+              <MappingFragment StoreEntitySet="tbl_ta">
+                <ScalarProperty Name="id_ta" ColumnName="id_ta" />
+                <ScalarProperty Name="judul_ta" ColumnName="judul_ta" />
+                <ScalarProperty Name="pembimbing" ColumnName="pembimbing" />
+                <ScalarProperty Name="penguji1" ColumnName="penguji1" />
+                <ScalarProperty Name="penguji2" ColumnName="penguji2" />
+                <ScalarProperty Name="npm" ColumnName="npm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
