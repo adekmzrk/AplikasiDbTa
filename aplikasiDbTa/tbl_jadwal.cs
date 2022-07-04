@@ -17,7 +17,6 @@ namespace aplikasiDbTa
         public int id_ta { get; set; }
         public System.DateTime hari { get; set; }
         public System.TimeSpan waktu { get; set; }
-        public string sidang { get; set; }
         public string ruangan { get; set; }
     
         public virtual tbl_ta tbl_ta { get; set; }

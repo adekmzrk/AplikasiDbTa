@@ -34,5 +34,26 @@ namespace aplikasiDbTa
             formProfile.ShowDialog();
             Hide();
         }
+
+        private void inputDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var formInput = new InputData();
+            formInput.ShowDialog();
+            Hide();
+        }
+
+        private void formSidangToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var formTA = new FormTa();
+            formTA.ShowDialog();
+            Hide();
+        }
+
+        private void jadwalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var formJadwal = new Jadwal();
+            formJadwal.ShowDialog();
+            Hide();
+        }
     }
 }
